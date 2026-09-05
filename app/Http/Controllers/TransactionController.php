@@ -10,12 +10,22 @@ use Illuminate\Http\Request;
 class TransactionController extends Controller
 {
     // Dashboard publik - warga bisa lihat
-    public function index()
+    public function index(Request $request)
     {
-        $transactions = Transaction::orderBy('tanggal', 'desc')->orderBy('id', 'desc')->get();
-        $totalPemasukan = Transaction::sum('pemasukan');
-        $totalPengeluaran = Transaction::sum('pengeluaran');
-        $saldoAkhir = $totalPemasukan - $totalPengeluaran;
+        $bulan = $request->query('bulan');
+        $tahun = $request->query('tahun');
+
+        $query = Transaction::query();
+        if ($bulan) $query->whereMonth('tanggal', $bulan);
+        if ($tahun) $query->whereYear('tanggal', $tahun);
+
+        $transactions = (clone $query)->orderBy('tanggal', 'desc')->orderBy('id', 'desc')->get();
+        $totalPemasukan = (clone $query)->sum('pemasukan');
+        $totalPengeluaran = (clone $query)->sum('pengeluaran');
+        $saldoAkhir = Transaction::sum('pemasukan') - Transaction::sum('pengeluaran');
+
+        $availableTahuns = Transaction::selectRaw('YEAR(tanggal) as tahun')->distinct()->orderBy('tahun', 'desc')->pluck('tahun');
+
         $jadwals = Jadwal::with(['khatib', 'imam', 'bilal'])->where('tanggal_jumat', '>=', \Carbon\Carbon::today())->orderBy('tanggal_jumat', 'asc')->get();
         $acaras = Acara::where('tanggal_acara', '>=', \Carbon\Carbon::today())->orderBy('tanggal_acara', 'asc')->get();
 
@@ -30,18 +40,27 @@ class TransactionController extends Controller
             $shalat = collect($data['data']['jadwal'] ?? [])->firstWhere('tanggal', $hariIni);
         } catch (\Exception $e) {}
 
-        return view('transactions.index', compact('transactions', 'totalPemasukan', 'totalPengeluaran', 'saldoAkhir', 'jadwals', 'shalat', 'acaras'));
+        return view('transactions.index', compact('transactions', 'totalPemasukan', 'totalPengeluaran', 'saldoAkhir', 'jadwals', 'shalat', 'acaras', 'bulan', 'tahun', 'availableTahuns'));
     }
 
     // Halaman khusus Admin (kelola data)
-    public function adminIndex()
+    public function adminIndex(Request $request)
     {
-        $transactions = Transaction::orderBy('tanggal', 'desc')->orderBy('id', 'desc')->get();
-        $totalPemasukan = Transaction::sum('pemasukan');
-        $totalPengeluaran = Transaction::sum('pengeluaran');
-        $saldoAkhir = $totalPemasukan - $totalPengeluaran;
+        $bulan = $request->query('bulan');
+        $tahun = $request->query('tahun');
 
-        return view('transactions.admin', compact('transactions', 'totalPemasukan', 'totalPengeluaran', 'saldoAkhir'));
+        $query = Transaction::query();
+        if ($bulan) $query->whereMonth('tanggal', $bulan);
+        if ($tahun) $query->whereYear('tanggal', $tahun);
+
+        $transactions = (clone $query)->orderBy('tanggal', 'desc')->orderBy('id', 'desc')->get();
+        $totalPemasukan = (clone $query)->sum('pemasukan');
+        $totalPengeluaran = (clone $query)->sum('pengeluaran');
+        $saldoAkhir = Transaction::sum('pemasukan') - Transaction::sum('pengeluaran');
+
+        $availableTahuns = Transaction::selectRaw('YEAR(tanggal) as tahun')->distinct()->orderBy('tahun', 'desc')->pluck('tahun');
+
+        return view('transactions.admin', compact('transactions', 'totalPemasukan', 'totalPengeluaran', 'saldoAkhir', 'bulan', 'tahun', 'availableTahuns'));
     }
 
     // Form tambah transaksi (admin)

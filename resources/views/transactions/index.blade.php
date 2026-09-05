@@ -109,6 +109,24 @@
         @endif
 
         <h2 style="color:#2c662d; font-size:20px; border-bottom:2px solid #2c662d; padding-bottom:8px; margin-top:30px;">Laporan Keuangan</h2>
+        <form method="GET" style="display:flex; gap:10px; margin:15px 0;">
+            <select name="bulan" style="padding:8px; border:1px solid #ddd; border-radius:4px;">
+                <option value="">-- Semua Bulan --</option>
+                @for($i=1;$i<=12;$i++)
+                    <option value="{{ $i }}" {{ $bulan == $i ? 'selected' : '' }}>{{ \Carbon\Carbon::create()->month($i)->translatedFormat('F') }}</option>
+                @endfor
+            </select>
+            <select name="tahun" style="padding:8px; border:1px solid #ddd; border-radius:4px;">
+                <option value="">-- Semua Tahun --</option>
+                @foreach($availableTahuns as $t)
+                    <option value="{{ $t }}" {{ $tahun == $t ? 'selected' : '' }}>{{ $t }}</option>
+                @endforeach
+            </select>
+            <button type="submit" style="padding:8px 16px; background:#2c662d; color:white; border:none; border-radius:4px; cursor:pointer;">Filter</button>
+            @if($bulan || $tahun)
+                <a href="{{ route('transactions.index') }}" style="padding:8px 16px; background:#6c757d; color:white; text-decoration:none; border-radius:4px;">Reset</a>
+            @endif
+        </form>
         <div class="summary">
             <div class="card income">
                 <h3>Total Pemasukan</h3>
