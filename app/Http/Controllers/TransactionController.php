@@ -93,7 +93,7 @@ class TransactionController extends Controller
         // Recalculate all saldos from this point forward
         $this->recalculateSaldo();
 
-        return redirect()->route('transactions.index')->with('success', 'Transaksi berhasil diperbarui!');
+        return redirect()->route('transactions.admin')->with('success', 'Transaksi berhasil diperbarui!');
     }
 
     // Hapus transaksi
@@ -102,7 +102,7 @@ class TransactionController extends Controller
         Transaction::findOrFail($id)->delete();
         $this->recalculateSaldo();
 
-        return redirect()->route('transactions.index')->with('success', 'Transaksi berhasil dihapus!');
+        return redirect()->route('transactions.admin')->with('success', 'Transaksi berhasil dihapus!');
     }
 
     // Recalculate saldo otomatis
