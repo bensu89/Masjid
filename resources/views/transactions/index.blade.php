@@ -43,7 +43,7 @@
         <div style="background:#2c662d; color:white; overflow:hidden; white-space:nowrap; padding:10px; border-radius:6px; margin-bottom:20px;">
             <marquee>
                 @if($shalat)
-                    Jadwal Shalat Hari Ini (Sumedang): Subuh {{ $shalat['subuh'] }}, Dzuhur {{ $shalat['dzuhur'] }}, Ashar {{ $shalat['ashar'] }}, Maghrib {{ $shalat['maghrib'] }}, Isya {{ $shalat['isya'] }}
+                    Jadwal Shalat Hari Ini (Sumedang): Subuh {{ $shalat['subuh'] }} WIB, Dzuhur {{ $shalat['dzuhur'] }} WIB, Ashar {{ $shalat['ashar'] }} WIB, Maghrib {{ $shalat['maghrib'] }} WIB, Isya {{ $shalat['isya'] }} WIB
                 @else
                     Memuat jadwal shalat...
                 @endif
