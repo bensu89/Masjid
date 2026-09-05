@@ -40,6 +40,15 @@
 </head>
 <body>
     <div class="container">
+        <div style="background:#2c662d; color:white; overflow:hidden; white-space:nowrap; padding:10px; border-radius:6px; margin-bottom:20px;">
+            <marquee>
+                @if($shalat)
+                    Jadwal Shalat Hari Ini (Sumedang): Subuh {{ $shalat['subuh'] }}, Dzuhur {{ $shalat['dzuhur'] }}, Ashar {{ $shalat['ashar'] }}, Maghrib {{ $shalat['maghrib'] }}, Isya {{ $shalat['isya'] }}
+                @else
+                    Memuat jadwal shalat...
+                @endif
+            </marquee>
+        </div>
         <h1>Dashboard Masjid Nurul Qolbi</h1>
 
         <h2 style="color:#2c662d; font-size:20px; border-bottom:2px solid #2c662d; padding-bottom:8px; margin-top:30px;">Jadwal Sholat Jumat</h2>

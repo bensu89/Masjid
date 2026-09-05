@@ -17,7 +17,18 @@ class TransactionController extends Controller
         $saldoAkhir = $totalPemasukan - $totalPengeluaran;
         $jadwals = Jadwal::with(['khatib', 'imam', 'bilal'])->where('tanggal_jumat', '>=', \Carbon\Carbon::today())->orderBy('tanggal_jumat', 'asc')->get();
 
-        return view('transactions.index', compact('transactions', 'totalPemasukan', 'totalPengeluaran', 'saldoAkhir', 'jadwals'));
+        $shalat = null;
+        try {
+            $response = \Illuminate\Support\Facades\Http::post('https://equran.id/api/v2/shalat', [
+                'provinsi' => 'Jawa Barat',
+                'kabkota' => 'Kab. Sumedang'
+            ]);
+            $data = $response->json();
+            $hariIni = (int)\Carbon\Carbon::now()->format('d');
+            $shalat = collect($data['data']['jadwal'] ?? [])->firstWhere('tanggal', $hariIni);
+        } catch (\Exception $e) {}
+
+        return view('transactions.index', compact('transactions', 'totalPemasukan', 'totalPengeluaran', 'saldoAkhir', 'jadwals', 'shalat'));
     }
 
     // Halaman khusus Admin (kelola data)
