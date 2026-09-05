@@ -34,7 +34,9 @@ class TransactionController extends Controller
     // Form tambah transaksi (admin)
     public function create()
     {
-        return view('transactions.create');
+        $last = Transaction::orderBy('id', 'desc')->first();
+        $saldo = $last ? $last->saldo : 0;
+        return view('transactions.create', compact('saldo'));
     }
 
     // Simpan transaksi baru

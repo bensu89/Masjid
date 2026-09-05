@@ -19,6 +19,7 @@
         .btn-secondary { background: #6c757d; }
         .actions { display: flex; gap: 10px; justify-content: center; margin-top: 10px; }
         .error { color: #dc3545; font-size: 12px; }
+        .saldo-box { background:#d4edda;color:#155724;padding:15px;border-radius:6px;margin-bottom:20px;text-align:center;font-weight:bold;font-size:18px; }
     </style>
 </head>
 <body>
@@ -28,6 +29,7 @@
     </div>
     <div class="container">
         <h1>Tambah Transaksi - Masjid Nurul Qolbi</h1>
+        <div class="saldo-box">Saldo Saat Ini: Rp {{ number_format($saldo, 0, ',', '.') }}</div>
         @if(session('success'))
             <div style="background:#d4edda;color:#155724;padding:12px;border-radius:6px;margin-bottom:15px;">{{ session('success') }}</div>
         @endif
