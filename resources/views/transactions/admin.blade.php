@@ -22,6 +22,7 @@
         th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
         th { background: #2c662d; color: white; }
         .alert { background: #d4edda; color: #155724; padding: 12px; border-radius: 4px; margin-bottom: 15px; }
+        .action-btns { display: flex; gap: 5px; }
     </style>
 </head>
 <body>
@@ -65,12 +66,14 @@
                         <td>Rp {{ number_format($t->pengeluaran, 0, ',', '.') }}</td>
                         <td>Rp {{ number_format($t->saldo, 0, ',', '.') }}</td>
                         <td>
-                            <a href="{{ route('transactions.edit', $t->id) }}" class="btn btn-warning">Edit</a>
-                            <form action="{{ route('transactions.destroy', $t->id) }}" method="POST" onsubmit="return confirm('Yakin hapus?')">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-danger" type="submit">Hapus</button>
-                            </form>
+                            <div class="action-btns">
+                                <a href="{{ route('transactions.edit', $t->id) }}" class="btn btn-warning">Edit</a>
+                                <form action="{{ route('transactions.destroy', $t->id) }}" method="POST" onsubmit="return confirm('Yakin hapus?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-danger" type="submit">Hapus</button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                     @endforeach
