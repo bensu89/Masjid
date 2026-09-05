@@ -23,6 +23,14 @@
         th { background: #2c662d; color: white; }
         .alert { background: #d4edda; color: #155724; padding: 12px; border-radius: 4px; margin-bottom: 15px; }
         .action-btns { display: flex; gap: 5px; }
+        @media (max-width: 768px) {
+            .container { padding: 15px; }
+            h1 { font-size: 20px; }
+            .nav { flex-wrap: wrap; }
+            table { font-size: 12px; display: block; overflow-x: auto; white-space: nowrap; }
+            th, td { padding: 8px 10px; }
+            .btn { padding: 6px 10px; font-size: 12px; }
+        }
     </style>
 </head>
 <body>

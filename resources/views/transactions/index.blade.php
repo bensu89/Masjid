@@ -28,6 +28,14 @@
         tr:hover { background: #f1f1f1; }
         .empty { text-align: center; padding: 30px; color: #777; background: white; border-radius: 8px; }
         .badge { background: #e8f5e9; color: #2c662d; padding: 6px 12px; border-radius: 20px; font-size: 13px; display: inline-block; margin-bottom: 10px; }
+        @media (max-width: 768px) {
+            .container { padding: 15px; }
+            h1 { font-size: 20px; }
+            .summary { grid-template-columns: 1fr; }
+            .card .amount { font-size: 20px; }
+            table { font-size: 13px; display: block; overflow-x: auto; white-space: nowrap; }
+            th, td { padding: 8px 10px; }
+        }
     </style>
 </head>
 <body>
