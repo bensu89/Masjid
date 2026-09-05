@@ -7,9 +7,10 @@
     <style>
         * { box-sizing: border-box; }
         body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f6f9; }
-        .nav { background: #2c662d; padding: 12px 20px; display: flex; gap: 15px; }
+        .nav { background: #2c662d; padding: 12px 20px; display: flex; gap: 15px; flex-wrap: wrap; }
         .nav a { color: white; text-decoration: none; padding: 8px 16px; border-radius: 4px; }
-        .nav a.active { background: rgba(255,255,255,0.2); }
+        .nav a.active { background: rgba(255,255,255,0.25); font-weight: bold; }
+        .nav a.logout { margin-left: auto; background: rgba(220,53,69,0.6); }
         .container { max-width: 1100px; margin: 20px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         h1 { color: #2c662d; text-align: center; }
         .actions { margin: 15px 0; }
@@ -34,10 +35,7 @@
     </style>
 </head>
 <body>
-    <div class="nav">
-        <a href="{{ route('transactions.index') }}">Dashboard Warga</a>
-        <a href="{{ route('transactions.admin') }}" class="active">Kelola Data</a>
-    </div>
+    @include('partials.nav')
     <div class="container">
         <h1>Kelola Transaksi - Masjid Nurul Qolbi</h1>
         
