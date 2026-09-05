@@ -40,7 +40,38 @@
 </head>
 <body>
     <div class="container">
-        <h1>Keuangan Masjid Nurul Qolbi</h1>
+        <h1>Dashboard Masjid Nurul Qolbi</h1>
+
+        <h2 style="color:#2c662d; font-size:20px; border-bottom:2px solid #2c662d; padding-bottom:8px; margin-top:30px;">Jadwal Sholat Jumat</h2>
+        
+        @if($jadwals->isNotEmpty())
+            <table style="margin-bottom:30px;">
+                <thead>
+                    <tr>
+                        <th>Tanggal</th>
+                        <th>Khatib</th>
+                        <th>Imam</th>
+                        <th>Bilal</th>
+                        <th>Tema</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($jadwals as $j)
+                    <tr>
+                        <td>{{ \Carbon\Carbon::parse($j->tanggal_jumat)->format('d/m/Y') }}</td>
+                        <td>{{ $j->khatib->nama_petugas }}</td>
+                        <td>{{ $j->imam?->nama_petugas ?: '-' }}</td>
+                        <td>{{ $j->bilal?->nama_petugas ?: '-' }}</td>
+                        <td>{{ $j->tema ?: '-' }}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @else
+            <div class="empty" style="margin-bottom:30px;">Belum ada jadwal Jumat.</div>
+        @endif
+
+        <h2 style="color:#2c662d; font-size:20px; border-bottom:2px solid #2c662d; padding-bottom:8px; margin-top:30px;">Laporan Keuangan</h2>
         <div class="summary">
             <div class="card income">
                 <h3>Total Pemasukan</h3>

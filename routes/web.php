@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\KhatibController;
+use App\Http\Controllers\PetugasJumatController;
+use App\Http\Controllers\JadwalController;
 use Illuminate\Support\Facades\Route;
 
 // Public (Warga)
@@ -22,7 +23,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::put('/transactions/{id}', [TransactionController::class, 'update'])->name('transactions.update');
     Route::delete('/transactions/{id}', [TransactionController::class, 'destroy'])->name('transactions.destroy');
 
-    // Manajemen Khatib
-    Route::resource('khatib', KhatibController::class);
+    // Petugas Jumat
+    Route::resource('petugas_jumat', PetugasJumatController::class);
     Route::resource('jadwal', JadwalController::class);
 });

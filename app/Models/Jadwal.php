@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Jadwal extends Model
 {
     protected $table = 'jadwals';
-    protected $fillable = ['khatib_id', 'tanggal_jumat', 'tema'];
+    protected $fillable = ['khatib_id', 'imam_id', 'bilal_id', 'tanggal_jumat', 'tema'];
 
-    public function khatib() {
-        return $this->belongsTo(Khatib::class);
-    }
+    public function khatib() { return $this->belongsTo(PetugasJumat::class, 'khatib_id'); }
+    public function imam() { return $this->belongsTo(PetugasJumat::class, 'imam_id'); }
+    public function bilal() { return $this->belongsTo(PetugasJumat::class, 'bilal_id'); }
 }

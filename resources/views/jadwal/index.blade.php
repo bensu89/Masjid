@@ -10,7 +10,7 @@
         .nav a { color: white; text-decoration: none; padding: 8px 16px; border-radius: 4px; }
         .nav a.active { background: rgba(255,255,255,0.25); font-weight: bold; }
         .nav a.logout { margin-left: auto; background: rgba(220,53,69,0.6); }
-        .container { max-width: 1000px; margin: 20px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .container { max-width: 1100px; margin: 20px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         h1 { color: #2c662d; text-align: center; }
         .alert { background: #d4edda; color: #155724; padding: 12px; border-radius: 4px; margin-bottom: 15px; }
         table { width: 100%; border-collapse: collapse; margin-top: 15px; }
@@ -27,6 +27,7 @@
     @include('partials.nav')
     <div class="container">
         <h1>Jadwal Khutbah Jumat</h1>
+        
         @if(session('success'))
             <div class="alert">{{ session('success') }}</div>
         @endif
@@ -39,6 +40,8 @@
                     <th>No</th>
                     <th>Tanggal</th>
                     <th>Khatib</th>
+                    <th>Imam</th>
+                    <th>Bilal</th>
                     <th>Tema</th>
                     <th>Aksi</th>
                 </tr>
@@ -48,7 +51,9 @@
                 <tr>
                     <td>{{ $i + 1 }}</td>
                     <td>{{ \Carbon\Carbon::parse($j->tanggal_jumat)->format('d/m/Y') }}</td>
-                    <td>{{ $j->khatib->nama_khatib }}</td>
+                    <td>{{ $j->khatib->nama_petugas }}</td>
+                    <td>{{ $j->imam?->nama_petugas ?: '-' }}</td>
+                    <td>{{ $j->bilal?->nama_petugas ?: '-' }}</td>
                     <td>{{ $j->tema ?: '-' }}</td>
                     <td>
                         <div class="action-btns">
@@ -61,7 +66,7 @@
                     </td>
                 </tr>
                 @empty
-                <tr><td colspan="5" style="text-align:center;color:#999;">Belum ada jadwal.</td></tr>
+                <tr><td colspan="7" style="text-align:center;color:#999;">Belum ada jadwal.</td></tr>
                 @endforelse
             </tbody>
         </table>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
+use App\Models\Jadwal;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
@@ -14,8 +15,9 @@ class TransactionController extends Controller
         $totalPemasukan = Transaction::sum('pemasukan');
         $totalPengeluaran = Transaction::sum('pengeluaran');
         $saldoAkhir = $totalPemasukan - $totalPengeluaran;
+        $jadwals = Jadwal::with(['khatib', 'imam', 'bilal'])->orderBy('tanggal_jumat', 'asc')->get();
 
-        return view('transactions.index', compact('transactions', 'totalPemasukan', 'totalPengeluaran', 'saldoAkhir'));
+        return view('transactions.index', compact('transactions', 'totalPemasukan', 'totalPengeluaran', 'saldoAkhir', 'jadwals'));
     }
 
     // Halaman khusus Admin (kelola data)
