@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Edit Petugas Jumat</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f4f6f9; margin: 0; padding: 20px; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #e8f5e9; margin: 0; padding: 20px; }
         .container { max-width: 600px; margin: 20px auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         h1 { color: #2c662d; margin-top: 0; text-align: center; border-bottom: 2px solid #2c662d; padding-bottom: 10px; }
         label { display: block; margin: 15px 0 5px; font-weight: 600; color: #444; }

@@ -6,7 +6,7 @@
     <title>Login Admin</title>
     <style>
         * { box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f6f9; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #e8f5e9; display: flex; justify-content: center; align-items: center; height: 100vh; }
         .container { width: 100%; max-width: 400px; padding: 30px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         h1 { color: #2c662d; text-align: center; margin-bottom: 20px; font-size: 24px; }
         label { display: block; margin-top: 15px; font-weight: bold; }

@@ -5,7 +5,7 @@
     <title>Data Khatib - Masjid Nurul Qolbi</title>
     <style>
         * { box-sizing: border-box; }
-        body { font-family: Arial; background: #f4f6f9; margin: 0; }
+        body { font-family: Arial; background: #e8f5e9; margin: 0; }
         .nav { background: #2c662d; padding: 12px 20px; display: flex; gap: 15px; flex-wrap: wrap; }
         .nav a { color: white; text-decoration: none; padding: 8px 16px; border-radius: 4px; }
         .nav a.active { background: rgba(255,255,255,0.25); font-weight: bold; }
