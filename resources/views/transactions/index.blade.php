@@ -54,7 +54,7 @@
         <h2 style="color:#2c662d; font-size:20px; border-bottom:2px solid #2c662d; padding-bottom:8px; margin-top:30px;">Jadwal Sholat Jumat</h2>
         
         @if($jadwals->isNotEmpty())
-            <table style="margin-bottom:30px;">
+            <table style="margin-bottom:20px;">
                 <thead>
                     <tr>
                         <th>Tanggal</th>
@@ -77,7 +77,35 @@
                 </tbody>
             </table>
         @else
-            <div class="empty" style="margin-bottom:30px;">Belum ada jadwal Jumat.</div>
+            <div class="empty" style="margin-bottom:20px;">Belum ada jadwal Jumat.</div>
+        @endif
+
+        <h2 style="color:#2c662d; font-size:20px; border-bottom:2px solid #2c662d; padding-bottom:8px; margin-top:30px;">Acara Keagamaan</h2>
+        @if($acaras->isNotEmpty())
+            <table style="margin-bottom:30px;">
+                <thead>
+                    <tr>
+                        <th>Judul</th>
+                        <th>Tanggal</th>
+                        <th>Waktu</th>
+                        <th>Lokasi</th>
+                        <th>Deskripsi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($acaras as $a)
+                    <tr>
+                        <td>{{ $a->judul }}</td>
+                        <td>{{ \Carbon\Carbon::parse($a->tanggal_acara)->format('d/m/Y') }}</td>
+                        <td>{{ $a->waktu ?: '-' }}</td>
+                        <td>{{ $a->lokasi ?: '-' }}</td>
+                        <td>{{ $a->deskripsi ?: '-' }}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @else
+            <div class="empty" style="margin-bottom:30px;">Belum ada acara keagamaan.</div>
         @endif
 
         <h2 style="color:#2c662d; font-size:20px; border-bottom:2px solid #2c662d; padding-bottom:8px; margin-top:30px;">Laporan Keuangan</h2>

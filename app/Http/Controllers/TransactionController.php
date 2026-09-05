@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaction;
 use App\Models\Jadwal;
+use App\Models\Acara;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
@@ -16,6 +17,7 @@ class TransactionController extends Controller
         $totalPengeluaran = Transaction::sum('pengeluaran');
         $saldoAkhir = $totalPemasukan - $totalPengeluaran;
         $jadwals = Jadwal::with(['khatib', 'imam', 'bilal'])->where('tanggal_jumat', '>=', \Carbon\Carbon::today())->orderBy('tanggal_jumat', 'asc')->get();
+        $acaras = Acara::where('tanggal_acara', '>=', \Carbon\Carbon::today())->orderBy('tanggal_acara', 'asc')->get();
 
         $shalat = null;
         try {
@@ -28,7 +30,7 @@ class TransactionController extends Controller
             $shalat = collect($data['data']['jadwal'] ?? [])->firstWhere('tanggal', $hariIni);
         } catch (\Exception $e) {}
 
-        return view('transactions.index', compact('transactions', 'totalPemasukan', 'totalPengeluaran', 'saldoAkhir', 'jadwals', 'shalat'));
+        return view('transactions.index', compact('transactions', 'totalPemasukan', 'totalPengeluaran', 'saldoAkhir', 'jadwals', 'shalat', 'acaras'));
     }
 
     // Halaman khusus Admin (kelola data)

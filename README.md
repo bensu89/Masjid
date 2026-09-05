@@ -1,59 +1,97 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+membangun aplikasi pencatatan keuangan masjid dengan fitur:
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+- dashboard warga (lihat transaksi dan jadwal shalat)
+- admin akses
+  - transaksi (tambah/edit/hapus) dan hitung saldo otomatis
+  - data khatib (ditambah/diedit)
+  - jadwal jumat (ditambah/edit) dan juga menampilkan petugas (khatib, imam, bilal) dan acara keagamaan
 
-## About Laravel
+### fitur utama
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- sistem ini dibangun menggunakan php (framework laravel 12) dan mySQL (xampp).
+- aplikasi ini berjalan pada local host port 8000 dan dapat diakses melalui web browser
+- ada fitur login admin untuk mengakses semua fitur admin yang ada pada aplikasi ini
+- fitur-fitur yang ada pada aplikasi ini terintegrasi satu sama lain
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## instalasi
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+```bash
+ds composer install
+php artisan serve
+```
 
-## Learning Laravel
+## cara menggunakan
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+- buka web browser
+- ketik alamat: http://localhost:8000
+- ada halaman dashboard yang menampilkan saldo akhir, informasi jadwal shalat jumat dan daftar transaksi
+- silahkan input data transaksi pada halaman dashboard admin
+- menu admin:
+  - data khatib
+  - jadwal jumat
+  - acara keagamaan
+  - transaksi (admin)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## katalog API
 
-## Laravel Sponsors
+- GET /api/shalat (Ambil jadwal shalat dari equran.id)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## bagian frontend
 
-### Premium Partners
+### dashboard warga
+- menampilkan saldo akhir, informasi jadwal shalat hari ini dan daftar transaksi
+- menampilkan informasi tentang petugas jumat hari ini
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### dashboard admin
+- tambah transaksi (form transaksi)
+- tampilkan daftar transaksi (edit/hapus)
+- data khatib (create/read/update/delete)
+- jadwal jumat (create/read/update/delete)
+- acara keagamaan (create/read/update/delete)
 
-## Contributing
+### fitur lain
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- routing menggunakan file routes/web.php, dan tiap controller dibuat resource controller untuk mengimplementasikan fitur CRUD (create, read, update, delete)
+- menggunakan bootstrap/app.php untuk menambahkan middleware autentikasi dan penjadwalan tugas (jadwal shalat)
+- digunakan database migrations yang terstruktur dan relasi antar tabel
+- menggunakan syntax blade pada file view untuk membuat tampilan HTML
 
-## Code of Conduct
+## struktur direktori
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```
+.
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/ (TransactionController, KhatibController, JadwalController, AcaraController, dll)
+│   │   └── Middleware/ (AdminMiddleware)
+│   ├── Models/ (Transaction, Khatib, Jadwal, Acara)
+│   └── Console/ (Commands, etc)
+├── database/
+│   ├── migrations/ (database structure)
+│   └── seeds/ (data dummy)
+├── resources/
+│   ├── views/ (view files, with layouts and partials)
+│   │   ├── partials/ (sidebar navigation)
+│   │   └── transactions/
+│   │       ├── create.blade.php
+│   │       └── ...
+│   └── ...
+├── composer.json
+└── package.json
+```
 
-## Security Vulnerabilities
+## fitur yang akan datang
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- [ ] simpan jadwal shalat offline
+- [ ] notifikasi untuk acara keagamaan baru
+- [ ] integrasi dengan google calender
+- [ ] notifcation system
 
-## License
+## lisensi
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+MIT
+
+## author
+
+- @nunanky (github)
+
