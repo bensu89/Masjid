@@ -60,7 +60,7 @@ class TransactionController extends Controller
             'saldo' => $saldo,
         ]);
 
-        return redirect()->route('transactions.index')->with('success', 'Transaksi berhasil ditambahkan!');
+        return redirect()->route('transactions.create')->with('success', 'Transaksi berhasil ditambahkan!');
     }
 
     // Form edit transaksi (admin)

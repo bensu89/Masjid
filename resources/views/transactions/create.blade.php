@@ -28,6 +28,9 @@
     </div>
     <div class="container">
         <h1>Tambah Transaksi - Masjid Nurul Qolbi</h1>
+        @if(session('success'))
+            <div style="background:#d4edda;color:#155724;padding:12px;border-radius:6px;margin-bottom:15px;">{{ session('success') }}</div>
+        @endif
         <form action="{{ route('transactions.store') }}" method="POST">
             @csrf
             <label>Tanggal</label>
