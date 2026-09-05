@@ -21,9 +21,7 @@
         .btn-warning { background: #ffc107; color: #333; }
         .btn-danger { background: #dc3545; }
         .filter-box { display:flex; gap:10px; margin:15px 0; }
-        .filter-box input, .filter-box select { padding: 10px; border: 1px solid #ccc; border-radius: 6px; }
-        .filter-box input { flex: 2; }
-        .filter-box select { flex: 1; }
+        .filter-box input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; }
         .badge { padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
         .badge-khatib { background: #d4edda; color: #155724; }
         .badge-imam { background: #cce5ff; color: #004085; }
@@ -43,13 +41,7 @@
 
         <form action="{{ route('petugas_jumat.index') }}" method="GET" class="filter-box">
             <input type="text" name="search" placeholder="Cari nama petugas..." value="{{ request('search') }}">
-            <select name="peran">
-                <option value="">-- Semua Peran --</option>
-                <option value="Khatib" {{ request('peran')=='Khatib'?'selected':'' }}>Khatib</option>
-                <option value="Imam" {{ request('peran')=='Imam'?'selected':'' }}>Imam</option>
-                <option value="Bilal" {{ request('peran')=='Bilal'?'selected':'' }}>Bilal</option>
-            </select>
-            <button class="btn btn-primary" type="submit">Filter</button>
+            <button class="btn btn-primary" type="submit">Cari</button>
         </form>
 
         <table>
@@ -57,7 +49,6 @@
                 <tr>
                     <th>No</th>
                     <th>Nama</th>
-                    <th>Peran Utama</th>
                     <th>No. WhatsApp</th>
                     <th>Domisili</th>
                     <th>Status</th>
@@ -69,9 +60,6 @@
                 <tr>
                     <td>{{ $i + 1 }}</td>
                     <td>{{ $p->nama_petugas }}</td>
-                    <td>
-                        <span class="badge badge-{{ strtolower($p->peran_utama) }}">{{ $p->peran_utama }}</span>
-                    </td>
                     <td>{{ $p->no_whatsapp }}</td>
                     <td>{{ $p->domisili }}</td>
                     <td>
@@ -92,7 +80,7 @@
                     </td>
                 </tr>
                 @empty
-                <tr><td colspan="7" style="text-align:center;color:#999;">Tidak ada data.</td></tr>
+                <tr><td colspan="6" style="text-align:center;color:#999;">Tidak ada data.</td></tr>
                 @endforelse
             </tbody>
         </table>
