@@ -24,13 +24,14 @@
             <label>Nama Lengkap & Gelar</label>
             <input type="text" name="nama_petugas" placeholder="Contoh: Ust. H. Ahmad Fauzi, M.Ag." required>
 
-            <label>Peran Utama</label>
-            <select name="peran_utama" required>
-                <option value="">-- Pilih Peran --</option>
+            <label>Peran Utama (Opsional)</label>
+            <select name="peran_utama">
+                <option value="">-- Belum Ditentukan --</option>
                 <option value="Khatib">Khatib</option>
                 <option value="Imam">Imam</option>
                 <option value="Bilal">Bilal / Muadzin</option>
             </select>
+            <small style="color:#666;font-size:12px;">Bisa ditentukan nanti saat membuat jadwal.</small>
 
             <label>No. WhatsApp (Awali 08 atau 62)</label>
             <input type="text" name="no_whatsapp" placeholder="Contoh: 08123456789" required>

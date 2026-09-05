@@ -24,12 +24,14 @@
             <label>Nama Lengkap & Gelar</label>
             <input type="text" name="nama_petugas" value="{{ $petugas->nama_petugas }}" required>
 
-            <label>Peran Utama</label>
-            <select name="peran_utama" required>
+            <label>Peran Utama (Opsional)</label>
+            <select name="peran_utama">
+                <option value="">-- Belum Ditentukan --</option>
                 <option value="Khatib" {{ $petugas->peran_utama=='Khatib'?'selected':'' }}>Khatib</option>
                 <option value="Imam" {{ $petugas->peran_utama=='Imam'?'selected':'' }}>Imam</option>
                 <option value="Bilal" {{ $petugas->peran_utama=='Bilal'?'selected':'' }}>Bilal / Muadzin</option>
             </select>
+            <small style="color:#666;font-size:12px;">Bisa ditentukan nanti saat membuat jadwal.</small>
 
             <label>No. WhatsApp</label>
             <input type="text" name="no_whatsapp" value="{{ $petugas->no_whatsapp }}" required>

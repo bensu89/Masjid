@@ -15,7 +15,7 @@ class TransactionController extends Controller
         $totalPemasukan = Transaction::sum('pemasukan');
         $totalPengeluaran = Transaction::sum('pengeluaran');
         $saldoAkhir = $totalPemasukan - $totalPengeluaran;
-        $jadwals = Jadwal::with(['khatib', 'imam', 'bilal'])->orderBy('tanggal_jumat', 'asc')->get();
+        $jadwals = Jadwal::with(['khatib', 'imam', 'bilal'])->where('tanggal_jumat', '>=', \Carbon\Carbon::today())->orderBy('tanggal_jumat', 'asc')->get();
 
         return view('transactions.index', compact('transactions', 'totalPemasukan', 'totalPengeluaran', 'saldoAkhir', 'jadwals'));
     }

@@ -14,10 +14,8 @@ class JadwalController extends Controller
     }
 
     public function create() {
-        $khatibs = PetugasJumat::where('status_aktif', true)->whereIn('peran_utama', ['Khatib', 'Imam'])->get();
-        $imams = PetugasJumat::where('status_aktif', true)->get();
-        $bilals = PetugasJumat::where('status_aktif', true)->where('peran_utama', 'Bilal')->get();
-        return view('jadwal.create', compact('khatibs', 'imams', 'bilals'));
+        $petugas = PetugasJumat::where('status_aktif', true)->orderBy('nama_petugas')->get();
+        return view('jadwal.create', compact('petugas'));
     }
 
     public function store(Request $request) {
@@ -34,10 +32,8 @@ class JadwalController extends Controller
 
     public function edit($id) {
         $jadwal = Jadwal::findOrFail($id);
-        $khatibs = PetugasJumat::where('status_aktif', true)->whereIn('peran_utama', ['Khatib', 'Imam'])->get();
-        $imams = PetugasJumat::where('status_aktif', true)->get();
-        $bilals = PetugasJumat::where('status_aktif', true)->where('peran_utama', 'Bilal')->get();
-        return view('jadwal.edit', compact('jadwal', 'khatibs', 'imams', 'bilals'));
+        $petugas = PetugasJumat::where('status_aktif', true)->orderBy('nama_petugas')->get();
+        return view('jadwal.edit', compact('jadwal', 'petugas'));
     }
 
     public function update(Request $request, $id) {

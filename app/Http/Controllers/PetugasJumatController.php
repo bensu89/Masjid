@@ -33,7 +33,7 @@ class PetugasJumatController extends Controller
     {
         $validated = $request->validate([
             'nama_petugas' => 'required|string|max:150',
-            'peran_utama' => 'required|in:Khatib,Imam,Bilal',
+            'peran_utama' => 'nullable|in:Khatib,Imam,Bilal',
             'no_whatsapp' => 'required|string|max:20',
             'domisili' => 'nullable|string',
             'status_aktif' => 'boolean',
@@ -58,7 +58,7 @@ class PetugasJumatController extends Controller
 
         $validated = $request->validate([
             'nama_petugas' => 'required|string|max:150',
-            'peran_utama' => 'required|in:Khatib,Imam,Bilal',
+            'peran_utama' => 'nullable|in:Khatib,Imam,Bilal',
             'no_whatsapp' => 'required|string|max:20',
             'domisili' => 'nullable|string',
         ]);
