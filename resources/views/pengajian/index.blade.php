@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Acara Keagamaan</title>
+    <title>Jadwal Pengajian</title>
     <style>
         * { box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f4f6f9; margin: 0; }
@@ -26,18 +26,19 @@
 <body>
     @include('partials.nav')
     <div class="container">
-        <h1>Acara Keagamaan - Masjid Nurul Qolbi</h1>
+        <h1>Jadwal Pengajian - Masjid Nurul Qolbi</h1>
         @if(session('success'))
             <div class="alert">{{ session('success') }}</div>
         @endif
 
-        <a href="{{ route('acara.create') }}" class="btn btn-primary">+ Tambah Acara</a>
+        <a href="{{ route('pengajian.create') }}" class="btn btn-primary">+ Tambah Pengajian</a>
 
         <table>
             <thead>
                 <tr>
                     <th>No</th>
                     <th>Judul</th>
+                    <th>Pemateri</th>
                     <th>Tanggal</th>
                     <th>Waktu</th>
                     <th>Lokasi</th>
@@ -46,18 +47,19 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse($acaras as $i => $a)
+                @forelse($pengajian as $i => $p)
                 <tr>
                     <td>{{ $i + 1 }}</td>
-                    <td>{{ $a->judul }}</td>
-                    <td>{{ \Carbon\Carbon::parse($a->tanggal_acara)->format('d/m/Y') }}</td>
-                    <td>{{ $a->waktu ?: '-' }}</td>
-                    <td>{{ $a->lokasi ?: '-' }}</td>
-                    <td>{{ $a->deskripsi ?: '-' }}</td>
+                    <td>{{ $p->judul }}</td>
+                    <td>{{ $p->pemateri }}</td>
+                    <td>{{ \Carbon\Carbon::parse($p->tanggal)->format('d/m/Y') }}</td>
+                    <td>{{ $p->waktu ?: '-' }}</td>
+                    <td>{{ $p->lokasi ?: '-' }}</td>
+                    <td>{{ $p->deskripsi ?: '-' }}</td>
                     <td>
                         <div class="action-btns">
-                            <a href="{{ route('acara.edit', $a->id) }}" class="btn btn-warning">Edit</a>
-                            <form action="{{ route('acara.destroy', $a->id) }}" method="POST" onsubmit="return confirm('Hapus acara?')">
+                            <a href="{{ route('pengajian.edit', $p->id) }}" class="btn btn-warning">Edit</a>
+                            <form action="{{ route('pengajian.destroy', $p->id) }}" method="POST" onsubmit="return confirm('Hapus pengajian?')">
                                 @csrf @method('DELETE')
                                 <button class="btn btn-danger" type="submit">Hapus</button>
                             </form>
@@ -65,7 +67,7 @@
                     </td>
                 </tr>
                 @empty
-                <tr><td colspan="7" style="text-align:center;color:#999;">Belum ada acara.</td></tr>
+                <tr><td colspan="8" style="text-align:center;color:#999;">Belum ada jadwal pengajian.</td></tr>
                 @endforelse
             </tbody>
         </table>

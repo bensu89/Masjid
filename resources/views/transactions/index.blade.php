@@ -50,14 +50,7 @@
             </marquee>
         </div>
         <div style="text-align:center; margin-bottom:20px;">
-            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#2c662d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:10px;">
-                <path d="M12 2L2 8l10 6 10-6-10-6z"/>
-                <path d="M2 17l10 6 10-6"/>
-                <path d="M2 12l10 6 10-6"/>
-                <rect x="8" y="14" width="8" height="8" rx="1"/>
-                <path d="M12 9v12"/>
-                <path d="M8 18h8"/>
-            </svg>
+            <img src="{{ asset('images/mosque.png') }}" alt="Icon Masjid" style="width:120px; margin-bottom:10px;">
             <h1>Dashboard Masjid Nurul Qolbi</h1>
         </div>
 
@@ -92,13 +85,14 @@
         @endif
         @endif
 
-        @if($settings->acara_keagamaan_enabled)
-        <h2 style="color:#2c662d; font-size:20px; border-bottom:2px solid #2c662d; padding-bottom:8px; margin-top:30px;">Acara Keagamaan</h2>
-        @if($acaras->isNotEmpty())
+        @if($settings->jadwal_pengajian_enabled)
+        <h2 style="color:#2c662d; font-size:20px; border-bottom:2px solid #2c662d; padding-bottom:8px; margin-top:30px;">Jadwal Pengajian</h2>
+        @if($pengajians->isNotEmpty())
             <table style="margin-bottom:30px;">
                 <thead>
                     <tr>
                         <th>Judul</th>
+                        <th>Pemateri</th>
                         <th>Tanggal</th>
                         <th>Waktu</th>
                         <th>Lokasi</th>
@@ -106,19 +100,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($acaras as $a)
+                    @foreach($pengajians as $p)
                     <tr>
-                        <td>{{ $a->judul }}</td>
-                        <td>{{ \Carbon\Carbon::parse($a->tanggal_acara)->format('d/m/Y') }}</td>
-                        <td>{{ $a->waktu ?: '-' }}</td>
-                        <td>{{ $a->lokasi ?: '-' }}</td>
-                        <td>{{ $a->deskripsi ?: '-' }}</td>
+                        <td>{{ $p->judul }}</td>
+                        <td>{{ $p->pemateri }}</td>
+                        <td>{{ \Carbon\Carbon::parse($p->tanggal)->format('d/m/Y') }}</td>
+                        <td>{{ $p->waktu ?: '-' }}</td>
+                        <td>{{ $p->lokasi ?: '-' }}</td>
+                        <td>{{ $p->deskripsi ?: '-' }}</td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
         @else
-            <div class="empty" style="margin-bottom:30px;">Belum ada acara keagamaan.</div>
+            <div class="empty" style="margin-bottom:30px;">Belum ada jadwal pengajian.</div>
         @endif
         @endif
 

@@ -58,8 +58,8 @@
                         Jadwal Sholat Jumat
                     </label>
                     <label style="display:flex; align-items:center; gap:5px; cursor:pointer;">
-                        <input type="checkbox" name="acara_keagamaan_enabled" {{ $settings->acara_keagamaan_enabled ? 'checked' : '' }}>
-                        Acara Keagamaan
+                        <input type="checkbox" name="jadwal_pengajian_enabled" {{ $settings->jadwal_pengajian_enabled ? 'checked' : '' }}>
+                        Jadwal Pengajian
                     </label>
                     <label style="display:flex; align-items:center; gap:5px; cursor:pointer;">
                         <input type="checkbox" name="laporan_keuangan_enabled" {{ $settings->laporan_keuangan_enabled ? 'checked' : '' }}>

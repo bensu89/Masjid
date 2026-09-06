@@ -4,7 +4,7 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PetugasJumatController;
 use App\Http\Controllers\JadwalController;
-use App\Http\Controllers\AcaraController;
+use App\Http\Controllers\PengajianController;
 use Illuminate\Support\Facades\Route;
 
 // Public (Warga)
@@ -28,5 +28,6 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     // Petugas Jumat
     Route::resource('petugas_jumat', PetugasJumatController::class);
     Route::resource('jadwal', JadwalController::class);
-    Route::resource('acara', AcaraController::class);
+    Route::resource('pengajian', PengajianController::class);
+
 });

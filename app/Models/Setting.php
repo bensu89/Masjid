@@ -8,7 +8,7 @@ class Setting extends Model
 {
     protected $fillable = [
         'jadwal_shalat_jumat_enabled',
-        'acara_keagamaan_enabled',
+        'jadwal_pengajian_enabled',
         'laporan_keuangan_enabled',
     ];
 }

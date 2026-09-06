@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('settings', function (Blueprint $table) {
+        Schema::create('pengajians', function (Blueprint $table) {
             $table->id();
-            $table->boolean('jadwal_shalat_jumat_enabled')->default(true);
-            $table->boolean('jadwal_pengajian_enabled')->default(true);
-            $table->boolean('laporan_keuangan_enabled')->default(true);
+            $table->string('judul');
+            $table->string('pemateri');
+            $table->date('tanggal');
+            $table->string('waktu')->nullable();
+            $table->string('lokasi')->nullable();
+            $table->text('deskripsi')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('settings');
+        Schema::dropIfExists('pengajians');
     }
 };

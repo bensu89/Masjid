@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Transaction;
 use App\Models\Jadwal;
-use App\Models\Acara;
+use App\Models\Pengajian;
 use App\Models\Setting;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -16,7 +16,7 @@ class TransactionController extends Controller
     {
         $settings = Setting::firstOrCreate([], [
             'jadwal_shalat_jumat_enabled' => true,
-            'acara_keagamaan_enabled' => true,
+            'jadwal_pengajian_enabled' => true,
             'laporan_keuangan_enabled' => true,
         ]);
 
@@ -41,8 +41,8 @@ class TransactionController extends Controller
             ? Jadwal::with(['khatib', 'imam', 'bilal'])->where('tanggal_jumat', '>=', \Carbon\Carbon::today())->orderBy('tanggal_jumat', 'asc')->get()
             : collect([]);
 
-        $acaras = $settings->acara_keagamaan_enabled
-            ? Acara::where('tanggal_acara', '>=', \Carbon\Carbon::today())->orderBy('tanggal_acara', 'asc')->get()
+        $pengajians = $settings->jadwal_pengajian_enabled
+            ? Pengajian::where('tanggal', '>=', \Carbon\Carbon::today())->orderBy('tanggal', 'asc')->get()
             : collect([]);
 
         $shalat = null;
@@ -56,7 +56,7 @@ class TransactionController extends Controller
             $shalat = collect($data['data']['jadwal'] ?? [])->firstWhere('tanggal', $hariIni);
         } catch (\Exception $e) {}
 
-        return view('transactions.index', compact('transactions', 'totalPemasukan', 'totalPengeluaran', 'saldoAkhir', 'jadwals', 'shalat', 'acaras', 'bulan', 'tahun', 'availableTahuns', 'settings'));
+        return view('transactions.index', compact('transactions', 'totalPemasukan', 'totalPengeluaran', 'saldoAkhir', 'jadwals', 'shalat', 'pengajians', 'bulan', 'tahun', 'availableTahuns', 'settings'));
     }
 
     // Halaman khusus Admin (kelola data)
@@ -64,7 +64,7 @@ class TransactionController extends Controller
     {
         $settings = Setting::firstOrCreate([], [
             'jadwal_shalat_jumat_enabled' => true,
-            'acara_keagamaan_enabled' => true,
+            'jadwal_pengajian_enabled' => true,
             'laporan_keuangan_enabled' => true,
         ]);
 
@@ -93,7 +93,7 @@ class TransactionController extends Controller
         $settings = Setting::first();
         $settings->update([
             'jadwal_shalat_jumat_enabled' => $request->has('jadwal_shalat_jumat_enabled'),
-            'acara_keagamaan_enabled' => $request->has('acara_keagamaan_enabled'),
+            'jadwal_pengajian_enabled' => $request->has('jadwal_pengajian_enabled'),
             'laporan_keuangan_enabled' => $request->has('laporan_keuangan_enabled'),
         ]);
 
