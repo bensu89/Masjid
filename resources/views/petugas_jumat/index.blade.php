@@ -37,7 +37,9 @@
             <div class="alert">{{ session('success') }}</div>
         @endif
 
-        <a href="{{ route('petugas_jumat.create') }}" class="btn btn-primary">+ Tambah Petugas</a>
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:15px;">
+            <a href="{{ route('petugas_jumat.create') }}" class="btn btn-primary">+ Tambah Petugas</a>
+        </div>
 
         <form action="{{ route('petugas_jumat.index') }}" method="GET" class="filter-box">
             <input type="text" name="search" placeholder="Cari nama petugas..." value="{{ request('search') }}">
@@ -81,6 +83,47 @@
                 </tr>
                 @empty
                 <tr><td colspan="6" style="text-align:center;color:#999;">Tidak ada data.</td></tr>
+                @endforelse
+            </tbody>
+        </table>
+
+        <h2 style="color:#2c662d; margin-top:35px; border-bottom:2px solid #2c662d; padding-bottom:8px;">Jadwal Jumat</h2>
+        <div style="margin-bottom:10px;">
+            <a href="{{ route('jadwal.create') }}" class="btn btn-primary">+ Tambah Jadwal Jumat</a>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Tanggal</th>
+                    <th>Khatib</th>
+                    <th>Imam</th>
+                    <th>Bilal</th>
+                    <th>Tema</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($jadwals as $i => $j)
+                <tr>
+                    <td>{{ $i + 1 }}</td>
+                    <td>{{ \Carbon\Carbon::parse($j->tanggal_jumat)->format('d/m/Y') }}</td>
+                    <td>{{ $j->khatib->nama_petugas }}</td>
+                    <td>{{ $j->imam?->nama_petugas ?: '-' }}</td>
+                    <td>{{ $j->bilal?->nama_petugas ?: '-' }}</td>
+                    <td>{{ $j->tema ?: '-' }}</td>
+                    <td>
+                        <div class="action-btns">
+                            <a href="{{ route('jadwal.edit', $j->id) }}" class="btn btn-warning">Edit</a>
+                            <form action="{{ route('jadwal.destroy', $j->id) }}" method="POST" onsubmit="return confirm('Hapus jadwal?')">
+                                @csrf @method('DELETE')
+                                <button class="btn btn-danger" type="submit">Hapus</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                @empty
+                <tr><td colspan="7" style="text-align:center;color:#999;">Belum ada jadwal.</td></tr>
                 @endforelse
             </tbody>
         </table>
