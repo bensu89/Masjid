@@ -88,6 +88,12 @@ class TransactionController extends Controller
         return view('transactions.admin', compact('transactions', 'totalPemasukan', 'totalPengeluaran', 'saldoAkhir', 'bulan', 'tahun', 'availableTahuns', 'settings'));
     }
 
+    public function settingsIndex()
+    {
+        $settings = Setting::first();
+        return view('settings.index', compact('settings'));
+    }
+
     public function updateSettings(Request $request)
     {
         $settings = Setting::first();

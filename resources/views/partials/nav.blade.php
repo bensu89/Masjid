@@ -4,6 +4,7 @@
     <a href="{{ route('petugas_jumat.index') }}" @if(Request::routeIs('petugas_jumat.*')) class="active" @endif>Petugas Jumat</a>
     <a href="{{ route('jadwal.index') }}" @if(Request::routeIs('jadwal.*')) class="active" @endif>Jadwal Jumat</a>
     <a href="{{ route('pengajian.index') }}" @if(Request::routeIs('pengajian.*')) class="active" @endif>Jadwal Pengajian</a>
+    <a href="{{ route('settings.index') }}" @if(Request::routeIs('settings.*')) class="active" @endif>Pengaturan Fitur</a>
     <a href="#" class="logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">@csrf</form>
 </nav>

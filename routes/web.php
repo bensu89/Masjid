@@ -24,10 +24,10 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::put('/transactions/{id}', [TransactionController::class, 'update'])->name('transactions.update');
     Route::delete('/transactions/{id}', [TransactionController::class, 'destroy'])->name('transactions.destroy');
 
+    Route::get('/settings', [TransactionController::class, 'settingsIndex'])->name('settings.index');
     Route::put('/settings', [TransactionController::class, 'updateSettings'])->name('settings.update');
     // Petugas Jumat
     Route::resource('petugas_jumat', PetugasJumatController::class);
     Route::resource('jadwal', JadwalController::class);
     Route::resource('pengajian', PengajianController::class);
-
 });
