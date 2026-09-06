@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PetugasJumat;
+use App\Models\Jadwal;
 use Illuminate\Http\Request;
 
 class PetugasJumatController extends Controller
@@ -21,7 +22,8 @@ class PetugasJumatController extends Controller
         }
 
         $petugas = $query->get();
-        return view('petugas_jumat.index', compact('petugas'));
+        $jadwals = Jadwal::with(['khatib', 'imam', 'bilal'])->orderBy('tanggal_jumat')->get();
+        return view('petugas_jumat.index', compact('petugas', 'jadwals'));
     }
 
     public function create()
