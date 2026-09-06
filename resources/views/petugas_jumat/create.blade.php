@@ -2,21 +2,18 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tambah Petugas Jumat</title>
+    @include('partials.style')
     <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #e8f5e9; margin: 0; padding: 20px; }
-        .container { max-width: 600px; margin: 20px auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h1 { color: #2c662d; margin-top: 0; text-align: center; border-bottom: 2px solid #2c662d; padding-bottom: 10px; }
-        label { display: block; margin: 15px 0 5px; font-weight: 600; color: #444; }
-        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
+        .container { max-width: 600px; }
         .checkbox-group { margin: 20px 0; background: #e8f5e9; padding: 12px; border-radius: 6px; }
-        .actions { display: flex; gap: 10px; margin-top: 25px; }
-        .btn { padding: 12px 24px; border-radius: 6px; text-decoration: none; border: none; cursor: pointer; font-weight: 600; flex: 1; text-align: center; }
-        .btn-primary { background: #2c662d; color: white; }
-        .btn-secondary { background: #6c757d; color: white; }
+        .checkbox-group label { margin: 0; display:flex; align-items:center; gap:8px; }
+        .checkbox-group input { width: auto; }
     </style>
 </head>
 <body>
+    @include('partials.nav')
     <div class="container">
         <h1>Tambah Petugas Jumat</h1>
         <form action="{{ route('petugas_jumat.store') }}" method="POST">
@@ -40,11 +37,11 @@
             <textarea name="domisili" rows="3" placeholder="Contoh: Kec. Sukasari, Kota Bandung"></textarea>
 
             <div class="checkbox-group">
-                <label style="margin-top:0"><input type="checkbox" name="status_aktif" value="1" checked> Petugas Aktif</label>
+                <label><input type="checkbox" name="status_aktif" value="1" checked> Petugas Aktif</label>
             </div>
 
-            <div class="actions">
-                <a href="{{ route('petugas_jumat.index') }}" class="btn btn-secondary">Batal</a>
+            <div class="form-actions">
+                <a href="{{ route('petugas_jumat.index') }}" class="btn btn-danger">Batal</a>
                 <button type="submit" class="btn btn-primary">Simpan Data</button>
             </div>
         </form>

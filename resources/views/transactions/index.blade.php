@@ -4,37 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keuangan Masjid Nurul Qolbi</title>
+    @include('partials.style')
     <style>
-        * { box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #e8f5e9; }
-        .nav { background: #2c662d; padding: 12px 20px; display: flex; gap: 15px; }
-        .nav a { color: white; text-decoration: none; padding: 8px 16px; border-radius: 4px; }
-        .nav a.active { background: rgba(255,255,255,0.2); }
-        .container { max-width: 1100px; margin: 20px auto; padding: 20px; }
-        h1 { color: #2c662d; text-align: center; }
-        .summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 20px 0; }
+        .summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 15px; margin: 20px 0; }
         .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; }
         .card.income { border-top: 4px solid #28a745; }
         .card.expense { border-top: 4px solid #dc3545; }
         .card.balance { border-top: 4px solid #007bff; }
         .card h3 { margin: 0; color: #555; }
-        .card .amount { font-size: 24px; font-weight: bold; margin-top: 10px; }
+        .card .amount { font-size: 24px; font-weight: bold; margin-top: 10px; word-break: break-word; }
         .income .amount { color: #28a745; }
         .expense .amount { color: #dc3545; }
         .balance .amount { color: #007bff; }
-        table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
-        th { background: #2c662d; color: white; }
-        tr:hover { background: #f1f1f1; }
-        .empty { text-align: center; padding: 30px; color: #777; background: white; border-radius: 8px; }
-        .badge { background: #e8f5e9; color: #2c662d; padding: 6px 12px; border-radius: 20px; font-size: 13px; display: inline-block; margin-bottom: 10px; }
+        .ticker { background:#2c662d; color:white; overflow:hidden; white-space:nowrap; padding:10px; border-radius:6px; margin-bottom:20px; }
         @media (max-width: 768px) {
-            .container { padding: 15px; }
-            h1 { font-size: 20px; }
             .summary { grid-template-columns: 1fr; }
             .card .amount { font-size: 20px; }
-            table { font-size: 13px; display: block; overflow-x: auto; white-space: nowrap; }
-            th, td { padding: 8px 10px; }
         }
     </style>
 </head>

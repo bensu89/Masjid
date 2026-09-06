@@ -3,30 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Data Petugas Jumat</title>
+    @include('partials.style')
     <style>
-        * { box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #e8f5e9; margin: 0; }
-        .nav { background: #2c662d; padding: 12px 20px; display: flex; gap: 15px; flex-wrap: wrap; }
-        .nav a { color: white; text-decoration: none; padding: 8px 16px; border-radius: 4px; }
-        .nav a.active { background: rgba(255,255,255,0.25); font-weight: bold; }
-        .nav a.logout { margin-left: auto; background: rgba(220,53,69,0.6); }
-        .container { max-width: 1100px; margin: 20px auto; padding: 20px; background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h1 { color: #2c662d; text-align: center; }
-        .alert { background: #d4edda; color: #155724; padding: 12px; border-radius: 6px; margin-bottom: 15px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-        th { background: #2c662d; color: white; }
-        .btn { padding: 6px 12px; border-radius: 6px; text-decoration: none; color: white; display: inline-block; border: none; cursor: pointer; font-weight: 600; }
-        .btn-primary { background: #2c662d; }
-        .btn-warning { background: #ffc107; color: #333; }
-        .btn-danger { background: #dc3545; }
         .filter-box { display:flex; gap:10px; margin:15px 0; }
-        .filter-box input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; }
+        .filter-box input { width: 100%; }
         .badge { padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
         .badge-khatib { background: #d4edda; color: #155724; }
         .badge-imam { background: #cce5ff; color: #004085; }
         .badge-bilal { background: #fff3cd; color: #856404; }
-        .action-btns { display: flex; gap: 5px; }
+        @media (max-width: 768px) {
+            .filter-box { flex-direction: column; }
+        }
     </style>
 </head>
 <body>
