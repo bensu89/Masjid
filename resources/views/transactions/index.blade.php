@@ -108,25 +108,7 @@
             <div class="empty" style="margin-bottom:30px;">Belum ada acara keagamaan.</div>
         @endif
 
-        <h2 style="color:#2c662d; font-size:20px; border-bottom:2px solid #2c662d; padding-bottom:8px; margin-top:30px;">Laporan Keuangan</h2>
-        <form method="GET" style="display:flex; gap:10px; margin:15px 0;">
-            <select name="bulan" style="padding:8px; border:1px solid #ddd; border-radius:4px;">
-                <option value="">-- Semua Bulan --</option>
-                @for($i=1;$i<=12;$i++)
-                    <option value="{{ $i }}" {{ $bulan == $i ? 'selected' : '' }}>{{ \Carbon\Carbon::create()->month($i)->translatedFormat('F') }}</option>
-                @endfor
-            </select>
-            <select name="tahun" style="padding:8px; border:1px solid #ddd; border-radius:4px;">
-                <option value="">-- Semua Tahun --</option>
-                @foreach($availableTahuns as $t)
-                    <option value="{{ $t }}" {{ $tahun == $t ? 'selected' : '' }}>{{ $t }}</option>
-                @endforeach
-            </select>
-            <button type="submit" style="padding:8px 16px; background:#2c662d; color:white; border:none; border-radius:4px; cursor:pointer;">Filter</button>
-            @if($bulan || $tahun)
-                <a href="{{ route('transactions.index') }}" style="padding:8px 16px; background:#6c757d; color:white; text-decoration:none; border-radius:4px;">Reset</a>
-            @endif
-        </form>
+                <h2 style="color:#2c662d; font-size:20px; border-bottom:2px solid #2c662d; padding-bottom:8px; margin-top:30px;">Laporan Keuangan</h2>
         <div class="summary">
             <div class="card income">
                 <h3>Total Pemasukan</h3>
@@ -141,6 +123,14 @@
                 <div class="amount">Rp {{ number_format($saldoAkhir, 0, ',', '.') }}</div>
             </div>
         </div>
+
+        <div style="text-align:center; margin:20px 0;">
+            <button id="toggle-table-btn" type="button" style="background:#2c662d; color:white; border:none; padding:10px 20px; border-radius:6px; cursor:pointer; font-size:14px;">
+                Lihat Rincian Transaksi
+            </button>
+        </div>
+
+        <div id="table-container" style="display:none;">
         @if($transactions->isEmpty())
             <div class="empty">Belum ada data transaksi.</div>
         @else
@@ -169,7 +159,22 @@
                 </tbody>
             </table>
         @endif
+        </div>
+
         <p style="text-align:center; margin-top:30px; font-size:13px;"><a href="{{ route('login') }}" style="color:#888; text-decoration:none;">Login Admin</a></p>
     </div>
+
+    <script>
+        document.getElementById('toggle-table-btn').addEventListener('click', function() {
+            var el = document.getElementById('table-container');
+            if (el.style.display === 'none') {
+                el.style.display = 'block';
+                this.innerText = 'Sembunyikan Rincian Transaksi';
+            } else {
+                el.style.display = 'none';
+                this.innerText = 'Lihat Rincian Transaksi';
+            }
+        });
+    </script>
 </body>
 </html>

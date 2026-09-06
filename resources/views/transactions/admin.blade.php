@@ -47,25 +47,6 @@
             <a href="{{ route('transactions.create') }}" class="btn btn-primary">+ Tambah Transaksi</a>
         </div>
 
-        <form method="GET" style="display:flex; gap:10px; margin:15px 0;">
-            <select name="bulan" style="padding:8px; border:1px solid #ddd; border-radius:4px;">
-                <option value="">-- Semua Bulan --</option>
-                @for($i=1;$i<=12;$i++)
-                    <option value="{{ $i }}" {{ $bulan == $i ? 'selected' : '' }}>{{ \Carbon\Carbon::create()->month($i)->translatedFormat('F') }}</option>
-                @endfor
-            </select>
-            <select name="tahun" style="padding:8px; border:1px solid #ddd; border-radius:4px;">
-                <option value="">-- Semua Tahun --</option>
-                @foreach($availableTahuns as $t)
-                    <option value="{{ $t }}" {{ $tahun == $t ? 'selected' : '' }}>{{ $t }}</option>
-                @endforeach
-            </select>
-            <button type="submit" class="btn btn-primary">Filter</button>
-            @if($bulan || $tahun)
-                <a href="{{ route('transactions.admin') }}" class="btn btn-success" style="background:#6c757d;">Reset</a>
-            @endif
-        </form>
-
         @if($transactions->isEmpty())
             <div class="alert">Tidak ada data transaksi.</div>
         @else
