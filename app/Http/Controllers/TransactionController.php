@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Transaction;
 use App\Models\Jadwal;
 use App\Models\Acara;
+use App\Models\Setting;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
@@ -12,6 +14,12 @@ class TransactionController extends Controller
     // Dashboard publik - warga bisa lihat
     public function index(Request $request)
     {
+        $settings = Setting::firstOrCreate([], [
+            'jadwal_shalat_jumat_enabled' => true,
+            'acara_keagamaan_enabled' => true,
+            'laporan_keuangan_enabled' => true,
+        ]);
+
         $bulan = $request->query('bulan');
         $tahun = $request->query('tahun');
 
@@ -24,10 +32,18 @@ class TransactionController extends Controller
         $totalPengeluaran = (clone $query)->sum('pengeluaran');
         $saldoAkhir = Transaction::sum('pemasukan') - Transaction::sum('pengeluaran');
 
-        $availableTahuns = Transaction::selectRaw('YEAR(tanggal) as tahun')->distinct()->orderBy('tahun', 'desc')->pluck('tahun');
+        $tahunQuery = DB::connection()->getDriverName() === 'sqlite' 
+            ? "CAST(strftime('%Y', tanggal) AS INTEGER) as tahun" 
+            : 'YEAR(tanggal) as tahun';
+        $availableTahuns = Transaction::selectRaw($tahunQuery)->distinct()->orderBy('tahun', 'desc')->pluck('tahun');
 
-        $jadwals = Jadwal::with(['khatib', 'imam', 'bilal'])->where('tanggal_jumat', '>=', \Carbon\Carbon::today())->orderBy('tanggal_jumat', 'asc')->get();
-        $acaras = Acara::where('tanggal_acara', '>=', \Carbon\Carbon::today())->orderBy('tanggal_acara', 'asc')->get();
+        $jadwals = $settings->jadwal_shalat_jumat_enabled 
+            ? Jadwal::with(['khatib', 'imam', 'bilal'])->where('tanggal_jumat', '>=', \Carbon\Carbon::today())->orderBy('tanggal_jumat', 'asc')->get()
+            : collect([]);
+
+        $acaras = $settings->acara_keagamaan_enabled
+            ? Acara::where('tanggal_acara', '>=', \Carbon\Carbon::today())->orderBy('tanggal_acara', 'asc')->get()
+            : collect([]);
 
         $shalat = null;
         try {
@@ -40,12 +56,18 @@ class TransactionController extends Controller
             $shalat = collect($data['data']['jadwal'] ?? [])->firstWhere('tanggal', $hariIni);
         } catch (\Exception $e) {}
 
-        return view('transactions.index', compact('transactions', 'totalPemasukan', 'totalPengeluaran', 'saldoAkhir', 'jadwals', 'shalat', 'acaras', 'bulan', 'tahun', 'availableTahuns'));
+        return view('transactions.index', compact('transactions', 'totalPemasukan', 'totalPengeluaran', 'saldoAkhir', 'jadwals', 'shalat', 'acaras', 'bulan', 'tahun', 'availableTahuns', 'settings'));
     }
 
     // Halaman khusus Admin (kelola data)
     public function adminIndex(Request $request)
     {
+        $settings = Setting::firstOrCreate([], [
+            'jadwal_shalat_jumat_enabled' => true,
+            'acara_keagamaan_enabled' => true,
+            'laporan_keuangan_enabled' => true,
+        ]);
+
         $bulan = $request->query('bulan');
         $tahun = $request->query('tahun');
 
@@ -58,9 +80,24 @@ class TransactionController extends Controller
         $totalPengeluaran = (clone $query)->sum('pengeluaran');
         $saldoAkhir = Transaction::sum('pemasukan') - Transaction::sum('pengeluaran');
 
-        $availableTahuns = Transaction::selectRaw('YEAR(tanggal) as tahun')->distinct()->orderBy('tahun', 'desc')->pluck('tahun');
+        $tahunQuery = DB::connection()->getDriverName() === 'sqlite' 
+            ? "CAST(strftime('%Y', tanggal) AS INTEGER) as tahun" 
+            : 'YEAR(tanggal) as tahun';
+        $availableTahuns = Transaction::selectRaw($tahunQuery)->distinct()->orderBy('tahun', 'desc')->pluck('tahun');
 
-        return view('transactions.admin', compact('transactions', 'totalPemasukan', 'totalPengeluaran', 'saldoAkhir', 'bulan', 'tahun', 'availableTahuns'));
+        return view('transactions.admin', compact('transactions', 'totalPemasukan', 'totalPengeluaran', 'saldoAkhir', 'bulan', 'tahun', 'availableTahuns', 'settings'));
+    }
+
+    public function updateSettings(Request $request)
+    {
+        $settings = Setting::first();
+        $settings->update([
+            'jadwal_shalat_jumat_enabled' => $request->has('jadwal_shalat_jumat_enabled'),
+            'acara_keagamaan_enabled' => $request->has('acara_keagamaan_enabled'),
+            'laporan_keuangan_enabled' => $request->has('laporan_keuangan_enabled'),
+        ]);
+
+        return redirect()->back()->with('success', 'Pengaturan fitur berhasil diperbarui!');
     }
 
     // Form tambah transaksi (admin)

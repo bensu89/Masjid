@@ -47,6 +47,29 @@
             <a href="{{ route('transactions.create') }}" class="btn btn-primary">+ Tambah Transaksi</a>
         </div>
 
+        <div style="background:#f8f9fa; border:1px solid #e9ecef; border-radius:6px; padding:15px; margin-bottom:20px;">
+            <h3 style="margin-top:0; color:#2c662d; font-size:16px;">Pengaturan Fitur Publik</h3>
+            <form action="{{ route('settings.update') }}" method="POST">
+                @csrf
+                @method('PUT')
+                <div style="display:flex; flex-wrap:wrap; gap:15px; align-items:center;">
+                    <label style="display:flex; align-items:center; gap:5px; cursor:pointer;">
+                        <input type="checkbox" name="jadwal_shalat_jumat_enabled" {{ $settings->jadwal_shalat_jumat_enabled ? 'checked' : '' }}>
+                        Jadwal Sholat Jumat
+                    </label>
+                    <label style="display:flex; align-items:center; gap:5px; cursor:pointer;">
+                        <input type="checkbox" name="acara_keagamaan_enabled" {{ $settings->acara_keagamaan_enabled ? 'checked' : '' }}>
+                        Acara Keagamaan
+                    </label>
+                    <label style="display:flex; align-items:center; gap:5px; cursor:pointer;">
+                        <input type="checkbox" name="laporan_keuangan_enabled" {{ $settings->laporan_keuangan_enabled ? 'checked' : '' }}>
+                        Laporan Keuangan
+                    </label>
+                    <button type="submit" class="btn btn-success" style="padding:4px 10px; font-size:12px;">Simpan Pengaturan</button>
+                </div>
+            </form>
+        </div>
+
         @if($transactions->isEmpty())
             <div class="alert">Tidak ada data transaksi.</div>
         @else

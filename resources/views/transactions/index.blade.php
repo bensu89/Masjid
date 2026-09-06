@@ -49,8 +49,19 @@
                 @endif
             </marquee>
         </div>
-        <h1>Dashboard Masjid Nurul Qolbi</h1>
+        <div style="text-align:center; margin-bottom:20px;">
+            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#2c662d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:10px;">
+                <path d="M12 2L2 8l10 6 10-6-10-6z"/>
+                <path d="M2 17l10 6 10-6"/>
+                <path d="M2 12l10 6 10-6"/>
+                <rect x="8" y="14" width="8" height="8" rx="1"/>
+                <path d="M12 9v12"/>
+                <path d="M8 18h8"/>
+            </svg>
+            <h1>Dashboard Masjid Nurul Qolbi</h1>
+        </div>
 
+        @if($settings->jadwal_shalat_jumat_enabled)
         <h2 style="color:#2c662d; font-size:20px; border-bottom:2px solid #2c662d; padding-bottom:8px; margin-top:30px;">Jadwal Sholat Jumat</h2>
         
         @if($jadwals->isNotEmpty())
@@ -79,7 +90,9 @@
         @else
             <div class="empty" style="margin-bottom:20px;">Belum ada jadwal Jumat.</div>
         @endif
+        @endif
 
+        @if($settings->acara_keagamaan_enabled)
         <h2 style="color:#2c662d; font-size:20px; border-bottom:2px solid #2c662d; padding-bottom:8px; margin-top:30px;">Acara Keagamaan</h2>
         @if($acaras->isNotEmpty())
             <table style="margin-bottom:30px;">
@@ -107,8 +120,10 @@
         @else
             <div class="empty" style="margin-bottom:30px;">Belum ada acara keagamaan.</div>
         @endif
+        @endif
 
-                <h2 style="color:#2c662d; font-size:20px; border-bottom:2px solid #2c662d; padding-bottom:8px; margin-top:30px;">Laporan Keuangan</h2>
+        @if($settings->laporan_keuangan_enabled)
+        <h2 style="color:#2c662d; font-size:20px; border-bottom:2px solid #2c662d; padding-bottom:8px; margin-top:30px;">Laporan Keuangan</h2>
         <div class="summary">
             <div class="card income">
                 <h3>Total Pemasukan</h3>
@@ -160,6 +175,7 @@
             </table>
         @endif
         </div>
+        @endif
 
         <p style="text-align:center; margin-top:30px; font-size:13px;"><a href="{{ route('login') }}" style="color:#888; text-decoration:none;">Login Admin</a></p>
     </div>
