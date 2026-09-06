@@ -121,39 +121,71 @@
 
         <div style="text-align:center; margin:20px 0;">
             <button id="toggle-table-btn" type="button" style="background:#2c662d; color:white; border:none; padding:10px 20px; border-radius:6px; cursor:pointer; font-size:14px;">
-                Lihat Rincian Transaksi
+                {{ request('search') || request('bulan') || request('tahun') || request('all') ? 'Sembunyikan Rincian Transaksi' : 'Lihat Rincian Transaksi' }}
             </button>
         </div>
 
-        <div id="table-container" style="display:none;">
-        @if($transactions->isEmpty())
-            <div class="empty">Belum ada data transaksi.</div>
-        @else
-            <table>
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Tanggal</th>
-                        <th>Deskripsi</th>
-                        <th>Pemasukan</th>
-                        <th>Pengeluaran</th>
-                        <th>Saldo</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($transactions as $i => $t)
-                    <tr>
-                        <td>{{ $i + 1 }}</td>
-                        <td>{{ \Carbon\Carbon::parse($t->tanggal)->format('d/m/Y') }}</td>
-                        <td>{{ $t->deskripsi }}</td>
-                        <td>Rp {{ number_format($t->pemasukan, 0, ',', '.') }}</td>
-                        <td>Rp {{ number_format($t->pengeluaran, 0, ',', '.') }}</td>
-                        <td><b>Rp {{ number_format($t->saldo, 0, ',', '.') }}</b></td>
-                    </tr>
+        <div id="table-container" style="display: {{ request('search') || request('bulan') || request('tahun') || request('all') ? 'block' : 'none' }};">
+            <form method="GET" action="{{ route('transactions.index') }}" style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:15px; align-items:center;">
+                <input type="text" name="search" placeholder="Cari transaksi..." value="{{ request('search') }}" style="flex:1; min-width:180px; padding:8px 12px; border:1px solid #ccc; border-radius:6px;">
+                <select name="bulan" style="padding:8px 12px; border:1px solid #ccc; border-radius:6px; min-width:130px;">
+                    <option value="">Semua Bulan</option>
+                    @for($m=1; $m<=12; $m++)
+                        <option value="{{ $m }}" {{ request('bulan') == $m ? 'selected' : '' }}>
+                            {{ \Carbon\Carbon::create()->month($m)->locale('id')->isoFormat('MMMM') }}
+                        </option>
+                    @endfor
+                </select>
+                <select name="tahun" style="padding:8px 12px; border:1px solid #ccc; border-radius:6px; min-width:110px;">
+                    <option value="">Semua Tahun</option>
+                    @foreach($availableTahuns as $th)
+                        <option value="{{ $th }}" {{ request('tahun') == $th ? 'selected' : '' }}>{{ $th }}</option>
                     @endforeach
-                </tbody>
-            </table>
-        @endif
+                </select>
+                <button type="submit" class="btn btn-primary" style="padding:8px 16px;">Filter</button>
+                @if(request('search') || request('bulan') || request('tahun') || request('all'))
+                    <a href="{{ route('transactions.index') }}" class="btn btn-secondary" style="padding:8px 16px;">Reset</a>
+                @else
+                    <a href="{{ route('transactions.index', ['all' => 1]) }}" class="btn btn-secondary" style="padding:8px 16px;">Lihat Semua</a>
+                @endif
+            </form>
+
+            @php
+                $displayTransactions = (request('search') || request('bulan') || request('tahun') || request('all')) ? $allTransactions : $recentTransactions;
+            @endphp
+
+            @if(!request('search') && !request('bulan') && !request('tahun') && !request('all'))
+                <p style="font-size:13px; color:#666; margin-bottom:10px;">* Menampilkan 5 transaksi terakhir. Gunakan pencarian atau klik "Lihat Semua" untuk data lengkap.</p>
+            @endif
+
+            @if($displayTransactions->isEmpty())
+                <div class="empty">Belum ada data transaksi yang sesuai.</div>
+            @else
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Tanggal</th>
+                            <th>Deskripsi</th>
+                            <th>Pemasukan</th>
+                            <th>Pengeluaran</th>
+                            <th>Saldo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($displayTransactions as $i => $t)
+                        <tr>
+                            <td>{{ $i + 1 }}</td>
+                            <td>{{ \Carbon\Carbon::parse($t->tanggal)->format('d/m/Y') }}</td>
+                            <td>{{ $t->deskripsi }}</td>
+                            <td>Rp {{ number_format($t->pemasukan, 0, ',', '.') }}</td>
+                            <td>Rp {{ number_format($t->pengeluaran, 0, ',', '.') }}</td>
+                            <td><b>Rp {{ number_format($t->saldo, 0, ',', '.') }}</b></td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @endif
         </div>
         @endif
 

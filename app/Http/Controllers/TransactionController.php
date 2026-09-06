@@ -22,12 +22,17 @@ class TransactionController extends Controller
 
         $bulan = $request->query('bulan');
         $tahun = $request->query('tahun');
+        $search = $request->query('search');
 
         $query = Transaction::query();
+        if ($search) {
+            $query->where('deskripsi', 'like', "%$search%");
+        }
         if ($bulan) $query->whereMonth('tanggal', $bulan);
         if ($tahun) $query->whereYear('tanggal', $tahun);
 
-        $transactions = (clone $query)->orderBy('tanggal', 'desc')->orderBy('id', 'desc')->get();
+        $allTransactions = (clone $query)->orderBy('tanggal', 'desc')->orderBy('id', 'desc')->get();
+        $recentTransactions = (clone $query)->orderBy('tanggal', 'desc')->orderBy('id', 'desc')->limit(5)->get();
         $totalPemasukan = (clone $query)->sum('pemasukan');
         $totalPengeluaran = (clone $query)->sum('pengeluaran');
         $saldoAkhir = Transaction::sum('pemasukan') - Transaction::sum('pengeluaran');
@@ -56,7 +61,7 @@ class TransactionController extends Controller
             $shalat = collect($data['data']['jadwal'] ?? [])->firstWhere('tanggal', $hariIni);
         } catch (\Exception $e) {}
 
-        return view('transactions.index', compact('transactions', 'totalPemasukan', 'totalPengeluaran', 'saldoAkhir', 'jadwals', 'shalat', 'pengajians', 'bulan', 'tahun', 'availableTahuns', 'settings'));
+        return view('transactions.index', compact('recentTransactions', 'allTransactions', 'totalPemasukan', 'totalPengeluaran', 'saldoAkhir', 'jadwals', 'shalat', 'pengajians', 'bulan', 'tahun', 'search', 'availableTahuns', 'settings'));
     }
 
     // Halaman khusus Admin (kelola data)
